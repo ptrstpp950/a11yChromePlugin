@@ -1,7 +1,9 @@
 {
   "name": "temp",
   "version": "0.0.0",
-  "dependencies": {},
-  "devDependencies": {
-  }
+  "dependencies": {
+    "handlebars": "~3.0.3",
+    "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {}
 }

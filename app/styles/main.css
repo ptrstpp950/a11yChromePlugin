@@ -1,0 +1,69 @@
+body {
+  margin: 20px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4, h5, h6 {
+  font-size: 14px;
+}
+
+.badge {
+  vertical-align: middle;
+}
+
+.panel-heading h3 {
+  margin: 0;
+}
+
+.save-as {
+  float: right;
+  margin: 0 0 10px 10px;
+}
+
+span.badge, small {
+  margin-left: 5px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.toggle-hide {
+  display: none;
+}
+
+.panel-primary small {
+  color: #eee;
+}
+
+#passes {
+  margin-top: 15px;
+}
+
+.failureSummary {
+  word-wrap: normal;
+  word-break: break-word;
+  overflow: visible;
+  white-space: pre-wrap;
+}
+
+.is-chrome .node-link {
+  color: #337ab7;
+  text-decoration: none;
+  cursor: pointer;
+}
+.is-chrome .node-link:hover, .is-chrome .node-link:focus {
+  color: #23527c;
+  text-decoration: underline;
+}

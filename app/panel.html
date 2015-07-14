@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- build:css styles/main.css -->
+    <!-- bower:css -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- endbower -->
+    <link href="styles/main.css" rel="stylesheet">
+    <!-- endbuild -->
+  </head>
+  <body>
+    <div id="content">
+      <button id="analyze" class="btn btn-primary" type="button">Analyze It!</button>
+      <div id="rules">Rules are loading</div>
+      <div id="results"></div>
+    </div>
+    <script id="relatedNodes-partial" type="text/x-handlebars-template">
+    <li>
+      {{id}} <span class="label label-{{classForImpact impact}}">{{impact}}</span> - {{message}}. 
+      {{#xif " this.relatedNodes.length > 0 "}}Related nodes:{{/xif}}
+      <ol>
+        {{#each relatedNodes}}
+        <li>
+          <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
+        </li>
+        {{/each}}
+      </ol>
+    </li>
+    </script>
+    <script id="entry-template" type="text/x-handlebars-template">
+      <div id="container">
+        <h1>Results for <a href="{{url}}" target="_blank">{{url}}</a></h1>
+        <div>
+         {{#each violations}} 
+          <div class="panel panel-{{classForImpact impact}}">
+            <div class="panel-heading">
+              {{id}}  - {{help}} 
+              {{#each tags}}
+              <span class="badge">
+                {{this}}
+              </span>
+              {{/each}}
+            </div>
+            <div class="panel-body">
+              <h4>Description:</h4>
+              <div>{{description}}</div>
+             
+    
+              <button type="button" class="btn btn-default btn-sm toggle-nodes">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Expand nodes ({{nodes.length}})
+              </button>
+              <div class="nodes" style="display:none;">
+                {{#each nodes}}
+                  <div class="panel panel-info">
+                    <div class="panel-body">
+                      <h4>
+                        <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
+                      </h4>
+                      {{#xif " this.any.length > 0 "}}Fix any of following option{{/xif}}
+                      <ul>
+                        {{#each any}}
+                          {{> relatedNodes}} 
+                        {{/each}}
+                      </ul>
+                      {{#xif " this.all.length > 0 "}}Fix all of following option{{/xif}}
+                      <ul>
+                        {{#each all}}
+                        <li>
+                          {{> relatedNodes}} 
+                        </li>
+                        {{/each}}
+                      </ul>
+                      {{#xif " this.none.length > 0 "}}Fix none of following option{{/xif}}
+                      <ul>
+                        {{#each none}}
+                          {{> relatedNodes}} 
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                {{/each}}
+    
+              </div>
+            </div>
+          </div>
+         {{/each}} 
+        </div>
+      </div>
+    </script>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/panel.js -->
+    <script src="scripts/handlebarsSetup.js"></script>
+    <script src="scripts/report.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

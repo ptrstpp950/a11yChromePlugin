@@ -87,21 +87,6 @@ function getClosest (elem, selector) {
     return false;
 }
 
-function setupToggleNodes(){
-  var toggleNodes = document.querySelectorAll('.toggle-nodes');
-  for (var i = 0; i < toggleNodes.length; i++) {
-    toggleNodes[i].addEventListener('click', function(e) {
-      e.preventDefault();
-      //debugger;
-      var closestElem = this.parentNode.querySelector('.nodes');
-      if(closestElem.style.display == 'none'){
-         closestElem.style.display = 'block'
-      }else{
-         closestElem.style.display = 'none'
-      }
-    });
-  }
-}
 function saveChanges() {
   localStorage["rules"] = getCheckboxesValues('rulesCheckboxes');
 }
@@ -130,8 +115,6 @@ document.addEventListener('click', function(e) {
       var template = Handlebars.compile(source);
 
       document.getElementById('results').innerHTML = template(a11yCheck);
-
-      setupToggleNodes();
 
       results.scrollIntoView();
     });
@@ -197,17 +180,23 @@ function countNodes(rules) {
 
 
 function toggler(button, target) {
-  var newMessage = button.dataset.toggleMsg;
+  var newMessage = button.dataset.togglemsg;
   var visible = target.classList.toggle('toggle-hide');
   button.setAttribute('aria-expanded', visible);
-  button.dataset.toggleMsg = button.textContent;
-  button.textContent = newMessage;
+  if(newMessage!=null){
+    button.dataset.togglemsg = button.innerHTML;
+    button.innerHTML = newMessage;
+  }
 }
 
 document.addEventListener('click', function (e) {
   var toggle = e.target.dataset.toggle;
   if (toggle) {
-    toggler(e.target, this.querySelector(toggle));
+    debugger;
+    var elem = e.target.parentNode.querySelector(toggle);
+    if(elem ==null)
+      elem = this.querySelector(toggle);
+    toggler(e.target, elem);
     e.preventDefault();
     e.stopPropagation();
   }

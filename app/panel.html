@@ -5,13 +5,14 @@
     <!-- bower:css -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <!-- endbower -->
-    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/app.css" rel="stylesheet">
     <!-- endbuild -->
   </head>
   <body>
     <div id="content">
       <button id="analyze" class="btn btn-primary" type="button">Analyze It!</button>
-      <div id="rules">Rules are loading</div>
+      <button id="setup" class="btn btn-info" data-toggle="#rules" type="button">Setup</button>
+      <div id="rules" class="toggle-hide">Rules are loading</div>
       <div id="results"></div>
     </div>
     <script id="relatedNodes-partial" type="text/x-handlebars-template">
@@ -46,10 +47,12 @@
               <div>{{description}}</div>
              
     
-              <button type="button" class="btn btn-default btn-sm toggle-nodes">
+              <button type="button" class="btn btn-default btn-sm toggle-nodes" 
+                data-toggle=".nodes" 
+                data-togglemsg="<span class='glyphicon glyphicon-minus' aria-hidden='true'></span> Hide nodes ({{nodes.length}})">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Expand nodes ({{nodes.length}})
               </button>
-              <div class="nodes" style="display:none;">
+              <div class="nodes toggle-hide">
                 {{#each nodes}}
                   <div class="panel panel-info">
                     <div class="panel-body">

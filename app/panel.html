@@ -17,76 +17,101 @@
     </div>
     <script id="relatedNodes-partial" type="text/x-handlebars-template">
     <li>
-      {{id}} <span class="label label-{{classForImpact impact}}">{{impact}}</span> - {{message}}. 
-      {{#xif " this.relatedNodes.length > 0 "}}Related nodes:{{/xif}}
-      <ol>
-        {{#each relatedNodes}}
-        <li>
-          <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
-        </li>
-        {{/each}}
-      </ol>
-    </li>
-    </script>
-    <script id="entry-template" type="text/x-handlebars-template">
-      <div id="container">
-        <h1>Results for <a href="{{url}}" target="_blank">{{url}}</a></h1>
-        <div>
-         {{#each violations}} 
-          <div class="panel panel-{{classForImpact impact}}">
-            <div class="panel-heading">
-              {{id}}  - {{help}} 
-              {{#each tags}}
-              <span class="badge">
-                {{this}}
-              </span>
-              {{/each}}
-            </div>
-            <div class="panel-body">
-              <h4>Description:</h4>
-              <div>{{description}}</div>
-             
-    
-              <button type="button" class="btn btn-default btn-sm toggle-nodes" 
-                data-toggle=".nodes" 
-                data-togglemsg="<span class='glyphicon glyphicon-minus' aria-hidden='true'></span> Hide nodes ({{nodes.length}})">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Expand nodes ({{nodes.length}})
-              </button>
-              <div class="nodes toggle-hide">
-                {{#each nodes}}
-                  <div class="panel panel-info">
-                    <div class="panel-body">
-                      <h4>
-                        <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
-                      </h4>
-                      {{#xif " this.any.length > 0 "}}Fix any of following option{{/xif}}
-                      <ul>
-                        {{#each any}}
-                          {{> relatedNodes}} 
-                        {{/each}}
-                      </ul>
-                      {{#xif " this.all.length > 0 "}}Fix all of following option{{/xif}}
-                      <ul>
-                        {{#each all}}
-                        <li>
-                          {{> relatedNodes}} 
-                        </li>
-                        {{/each}}
-                      </ul>
-                      {{#xif " this.none.length > 0 "}}Fix none of following option{{/xif}}
-                      <ul>
-                        {{#each none}}
-                          {{> relatedNodes}} 
-                        {{/each}}
-                      </ul>
-                    </div>
-                  </div>
+        {{id}} <span class="label label-{{classForImpact impact}}">{{impact}}</span> - {{message}}. 
+        {{#xif " this.relatedNodes.length > 0 "}}Related nodes:{{/xif}}
+        <ol>
+          {{#each relatedNodes}}
+          <li>
+            <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
+          </li>
+          {{/each}}
+        </ol>
+      </li>
+      </script>
+      <script id="entry-template" type="text/x-handlebars-template">
+      <h1>Results for <a href="{{url}}" target="_blank">{{url}}</a></h1>
+      <div class="row">
+        <div class="col-md-2">
+          <div style="">
+            <h2>Violations list</h2>
+            <ul class="list-group">
+            {{#each violations}}
+              <li class="list-group-item ">
+                <span class="label label-{{classForImpact impact}}">{{impact}}</span>
+                <a href="#violation-{{id}}">{{id}} ({{nodes.length}})</a>
+              </li>
+            {{/each}}
+            </ul>
+          </div>
+          <div style="">
+            <h2>Passes list</h2>
+            <ul class="list-group">
+            {{#each passes}}
+              <li class="list-group-item ">
+                <span class="label label-{{classForImpact impact}}">{{impact}}</span>
+                {{id}}
+              </li>
+            {{/each}}
+            </ul>
+          </div>
+        </div>
+        <div id="container" class="col-md-10">
+          <h2>Violations details</h2>
+          <div>
+           {{#each violations}} 
+            <div id="violation-{{id}}" class="panel panel-{{classForImpact impact}}">
+              <div class="panel-heading">
+                {{id}}  - {{help}} 
+                {{#each tags}}
+                <span class="badge">
+                  {{this}}
+                </span>
                 {{/each}}
-    
+              </div>
+              <div class="panel-body">
+                <div><b>Description:</b></div>
+                <div>{{description}}</div>
+                <button type="button" class="btn btn-default btn-sm toggle-nodes" 
+                  data-toggle=".nodes" 
+                  data-togglemsg="<span class='glyphicon glyphicon-minus' aria-hidden='true'></span> Hide nodes ({{nodes.length}})">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Expand nodes ({{nodes.length}})
+                </button>
+                <div class="nodes toggle-hide">
+                  {{#each nodes}}
+                    <div class="panel panel-info">
+                      <div class="panel-body">
+                        <h4>
+                          <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
+                        </h4>
+                        {{#xif " this.any.length > 0 "}}Fix any of following option{{/xif}}
+                        <ul>
+                          {{#each any}}
+                            {{> relatedNodes}} 
+                          {{/each}}
+                        </ul>
+                        {{#xif " this.all.length > 0 "}}Fix all of following option{{/xif}}
+                        <ul>
+                          {{#each all}}
+                          <li>
+                            {{> relatedNodes}} 
+                          </li>
+                          {{/each}}
+                        </ul>
+                        {{#xif " this.none.length > 0 "}}Fix none of following option{{/xif}}
+                        <ul>
+                          {{#each none}}
+                            {{> relatedNodes}} 
+                          {{/each}}
+                        </ul>
+                      </div>
+                    </div>
+                  {{/each}}
+      
+                </div>
               </div>
             </div>
+           {{/each}} 
           </div>
-         {{/each}} 
         </div>
       </div>
     </script>
@@ -95,7 +120,7 @@
     <script src="bower_components/handlebars/handlebars.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
+ 
     <!-- build:js scripts/panel.js -->
     <script src="scripts/handlebarsSetup.js"></script>
     <script src="scripts/report.js"></script>

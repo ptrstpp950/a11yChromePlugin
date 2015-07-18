@@ -9,9 +9,11 @@
     <!-- endbuild -->
   </head>
   <body>
+    <nav class="well well-sm">
+      <button id="analyze" class="btn btn-primary navbar-btn" type="button">Analyze It!</button>
+      <button id="setup" class="btn btn-info navbar-btn" data-toggle="#rules" type="button">Setup</button>
+    </nav>
     <div id="content">
-      <button id="analyze" class="btn btn-primary" type="button">Analyze It!</button>
-      <button id="setup" class="btn btn-info" data-toggle="#rules" type="button">Setup</button>
       <div id="rules" class="toggle-hide">Rules are loading</div>
       <div id="results"></div>
     </div>
@@ -33,7 +35,7 @@
       <div class="row">
         <div class="col-md-2">
           <div style="">
-            <h2>Violations list</h2>
+            <h2>Violations list  ({{violations.length}})</h2>
             <ul class="list-group">
             {{#each violations}}
               <li class="list-group-item ">
@@ -44,24 +46,81 @@
             </ul>
           </div>
           <div style="">
-            <h2>Passes list</h2>
+            <h2>Passes list ({{passes.length}})</h2>            
             <ul class="list-group">
             {{#each passes}}
               <li class="list-group-item ">
                 <span class="label label-{{classForImpact impact}}">{{impact}}</span>
-                {{id}}
+                <span class="label label-{{classForImpact impact}}">pass</span>
+                <a href="#passes-{{id}}">{{id}}</a>
               </li>
             {{/each}}
             </ul>
           </div>
         </div>
         <div id="container" class="col-md-10">
-          <h2>Violations details</h2>
+          <h2>Violations details ({{violations.length}})</h2>
           <div>
            {{#each violations}} 
             <div id="violation-{{id}}" class="panel panel-{{classForImpact impact}}">
               <div class="panel-heading">
                 {{id}}  - {{help}} 
+                {{#each tags}}
+                <span class="badge">
+                  {{this}}
+                </span>
+                {{/each}}
+              </div>
+              <div class="panel-body">
+                <div><b>Description:</b></div>
+                <div>{{description}}</div>
+                <button type="button" class="btn btn-default btn-sm toggle-nodes" 
+                  data-toggle=".nodes" 
+                  data-togglemsg="<span class='glyphicon glyphicon-minus' aria-hidden='true'></span> Hide nodes ({{nodes.length}})">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Expand nodes ({{nodes.length}})
+                </button>
+                <div class="nodes toggle-hide">
+                  {{#each nodes}}
+                    <div class="panel panel-info">
+                      <div class="panel-body">
+                        <h4>
+                          <span data-inspect="{{stringify target}}" class="node-link">{{shortenFirstString target}}</span>
+                        </h4>
+                        {{#xif " this.any.length > 0 "}}Fix any of following option{{/xif}}
+                        <ul>
+                          {{#each any}}
+                            {{> relatedNodes}} 
+                          {{/each}}
+                        </ul>
+                        {{#xif " this.all.length > 0 "}}Fix all of following option{{/xif}}
+                        <ul>
+                          {{#each all}}
+                          <li>
+                            {{> relatedNodes}} 
+                          </li>
+                          {{/each}}
+                        </ul>
+                        {{#xif " this.none.length > 0 "}}Fix none of following option{{/xif}}
+                        <ul>
+                          {{#each none}}
+                            {{> relatedNodes}} 
+                          {{/each}}
+                        </ul>
+                      </div>
+                    </div>
+                  {{/each}}
+      
+                </div>
+              </div>
+            </div>
+           {{/each}} 
+
+
+            <h2>Passes details ({{passes.length}})</h2>
+            {{#each passes}} 
+            <div id="passes-{{id}}" class="panel panel-{{classForImpact impact}}">
+              <div class="panel-heading">
+               {{impact}} {{id}}  - {{help}} 
                 {{#each tags}}
                 <span class="badge">
                   {{this}}

@@ -50,7 +50,10 @@ Handlebars.registerHelper('classForImpact', function(impact) {
       return 'danger';
    } else if(this.impact == 'serious'){
       return 'warning';
+   } else if(this.impact == null){
+    return 'success';
    }
+
    return 'info';
 });
 

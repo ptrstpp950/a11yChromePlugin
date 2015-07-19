@@ -21,10 +21,26 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-concat-sourcemap');
+
   grunt.initConfig({
 
     // Project settings
     config: config,
+
+    //build content.js file
+    concat: {
+      contentJS: {
+        options: {
+          banner:"(function () {",
+          footer:"}());"
+        },
+        src: ['app/bower_components/axe-core/axe.js',
+          'app/scripts/axeAuditExtension.js', 
+          'app/scripts/chromeComunication.js'],
+        dest: 'app/scripts/content.js'
+      },
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -311,6 +327,7 @@ module.exports = function (grunt) {
     'chromeManifest:dist',
     'useminPrepare',
     'concurrent:dist',
+    'concat:contentJS',
     // No UI feature selected, cssmin task will be commented
     'cssmin:generated',
     'concat:generated',
